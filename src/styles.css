@@ -1,0 +1,251 @@
+:root
+{
+    --sidebar-project-button: #8ac4ff;
+    --button-color: pink;
+    --header-background: #3e7cb1;
+    --sidebar-background: #8ac4ff;
+    --background-color: white;
+    /*--background-color: #8de4ff;*/
+}
+body
+{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background-color);
+}
+
+p
+{
+    margin: 0;
+    padding: 0;
+}
+.sidebar
+{
+    background-color: var(--sidebar-background);
+    padding: 40px;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-projects
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    grid-auto-flow: row;
+}
+
+.sidebar-projects li
+{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 5px;   
+}
+
+button
+{
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+button:hover
+{
+    box-shadow: 0px 0px 2px black;
+}
+
+.sidebar-project
+{
+    background-color: var(--sidebar-project-button);
+    border: none;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+button
+{
+    background-color: white;
+}
+
+.delete
+{
+    background-color: var(--sidebar-project-button);
+    font-weight: bold;
+    font-size: 20px;
+    color: red;
+    border: none;
+    padding: 0px 6px;
+    /*padding: 5px 10px;*/
+}
+
+/*.delete:hover
+{
+    background-color: lightgrey;
+}*/
+
+.main-content
+{
+    display: flex;
+    flex-grow: 1;
+    background-color: var(--background-color);
+    
+}
+
+.add-todo, .add-project, .show-details
+{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: var(--sidebar-background);
+    visibility: hidden;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.header
+{
+    background-color: var(--header-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+}
+
+.title
+{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.todo-item
+{
+    display: flex;
+    /*background-color: aquamarine;*/   
+    padding: 5px 20px;
+    justify-content: space-between;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.todo-item .left
+{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;  
+}
+
+.todo-item .right
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+}
+
+.right p
+{
+    padding: 10px;
+}
+
+.main
+{
+    width: 100%;
+    padding: 20px;
+}
+
+.main ul
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.red, .red .delete
+{
+    background-color: #f9844a;
+}
+
+.yellow, .yellow .delete
+{
+    background-color: #FFEA00;
+}
+
+.green, .green .delete
+{
+    background-color: #4ad66d;
+}
+
+.popup
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup .buttons
+{
+    display: flex;
+    gap: 10px;
+}
+
+.popup .buttons button
+{
+    flex-grow: 1;
+}
+
+.popup ul
+{
+    display: grid;
+    grid-auto-flow: row;
+    gap: 5px;
+}
+
+.popup > ul > li, .priority-input
+{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.priority-input-ul li
+{
+    display: flex;
+    align-items: start;
+
+}
+
+input, select, option
+{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+}
