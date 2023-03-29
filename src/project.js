@@ -1,7 +1,7 @@
 import { Item } from "./todo-item";
 const Project = (name) => {
 
-    const todos = [];
+    let todos = [];
 
     const addTodo = (item) => 
     {
@@ -32,11 +32,17 @@ const Project = (name) => {
         todos.splice(index, 1);
     }
 
+    const getTodos = () => { return todos; }
+
+    const setTodos = (newTodos) => {todos = newTodos}
+
     return {
         name,
         todos,
         addTodo,
         removeTodo,
+        getTodos,
+        setTodos
     }
 }
 

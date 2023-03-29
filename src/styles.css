@@ -1,12 +1,11 @@
 :root
 {
-    --sidebar-project-button: #8ac4ff;
     --button-color: pink;
     --header-background: #3e7cb1;
     --sidebar-background: #8ac4ff;
     --background-color: white;
-    /*--background-color: #8de4ff;*/
 }
+
 body
 {
     margin: 0;
@@ -22,6 +21,19 @@ p
     margin: 0;
     padding: 0;
 }
+
+.header
+{
+    background-color: var(--header-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+}
+
 .sidebar
 {
     background-color: var(--sidebar-background);
@@ -47,22 +59,9 @@ p
     gap: 5px;   
 }
 
-button
-{
-    padding: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-}
-
-button:hover
-{
-    box-shadow: 0px 0px 2px black;
-}
-
 .sidebar-project
 {
-    background-color: var(--sidebar-project-button);
+    background-color: var(--sidebar-background);
     border: none;
     display: flex;
     justify-content: start;
@@ -71,7 +70,16 @@ button:hover
 
 button
 {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
     background-color: white;
+}
+
+button:hover
+{
+    box-shadow: 0px 0px 2px black;
 }
 
 .delete
@@ -82,13 +90,7 @@ button
     color: red;
     border: none;
     padding: 0px 6px;
-    /*padding: 5px 10px;*/
 }
-
-/*.delete:hover
-{
-    background-color: lightgrey;
-}*/
 
 .main-content
 {
@@ -110,18 +112,6 @@ button
     border-radius: 10px;
 }
 
-.header
-{
-    background-color: var(--header-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    font-size: 40px;
-    font-weight: bold;
-    color: white;
-}
-
 .title
 {
     font-size: 24px;
@@ -132,8 +122,6 @@ button
     justify-content: center;
 }
 
-
-
 ul
 {
     margin: 0;
@@ -143,8 +131,7 @@ ul
 
 .todo-item
 {
-    display: flex;
-    /*background-color: aquamarine;*/   
+    display: flex;  
     padding: 5px 20px;
     justify-content: space-between;
     font-size: 18px;

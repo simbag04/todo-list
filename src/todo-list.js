@@ -20,9 +20,11 @@ const lists = (() =>
         projects.splice(index, 1);
     }
 
+    const setProject = (project, index) => {
+        projects[index] = project;
+    }
+
     const getProject = (name) => {
-        console.log(name);
-        console.log(projects); 
         let project = projects.filter(project => project.name === name);
         if (project.length > 0)
         {
@@ -35,7 +37,7 @@ const lists = (() =>
 
         for (let i = 0; i < projects.length; i++)
         {
-            if (projects[i].getName() === name)
+            if (projects[i].name === name)
             {
                 return i;
             }
@@ -54,6 +56,7 @@ const lists = (() =>
         addProject,
         removeProject,
         getProject,
+        setProject,
         setProjects,
         getProjects
     }
