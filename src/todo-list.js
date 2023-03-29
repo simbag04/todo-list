@@ -5,7 +5,6 @@ const lists = (() =>
     let projects = [];
 
     const addProject = (project) => {
-
         if (getProject(project) === null)
         {
             projects.push(Project(project));
@@ -14,8 +13,6 @@ const lists = (() =>
         {
             alert("Projects must have different names!");
         }
-
-
     }
 
     const removeProject = (name) => {
@@ -24,7 +21,9 @@ const lists = (() =>
     }
 
     const getProject = (name) => {
-        let project = projects.filter(project => project.getName() === name);
+        console.log(name);
+        console.log(projects); 
+        let project = projects.filter(project => project.name === name);
         if (project.length > 0)
         {
             return project[0];
@@ -41,19 +40,22 @@ const lists = (() =>
                 return i;
             }
         }
-        return -1;
-        
+        return -1;  
     }
 
-    const getAllProjects = () => {
-        return projects;
+    const setProjects = (newProjects) => {
+        projects = newProjects;
     }
+
+    const getProjects = () => {return projects};
 
     return {
+        projects,
         addProject,
         removeProject,
         getProject,
-        getAllProjects
+        setProjects,
+        getProjects
     }
 
 })();

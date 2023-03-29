@@ -10,7 +10,7 @@ const listController = (() => {
 
     const addTodo = (item) => {
 
-        let project = item.getProject();
+        let project = item.project;
         let listProject = lists.getProject(project);
         if (lists.getProject(project) === null)
         {
@@ -18,10 +18,6 @@ const listController = (() => {
             listProject = lists.getProject(project);
         }
         listProject.addTodo(item);
-    }
-
-    const finishTodo = (item) => {
-        item.setCompleted(true);
     }
 
     return {addTodo};

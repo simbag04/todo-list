@@ -2,11 +2,10 @@ import { Item } from "./todo-item";
 const Project = (name) => {
 
     const todos = [];
-    const getName = () => {return name};
 
     const addTodo = (item) => 
     {
-        if (getTodoIndex(item.getTitle()) == -1)
+        if (getTodoIndex(item.title) == -1)
         {
             todos.push(item);
         }
@@ -20,7 +19,7 @@ const Project = (name) => {
     const getTodoIndex = (name) => {
         for (let i = 0; i < todos.length; i++)
         {
-            if (todos[i].getTitle() === name)
+            if (todos[i].title === name)
             {
                 return i;
             }
@@ -32,13 +31,12 @@ const Project = (name) => {
         let index = getTodoIndex(name);
         todos.splice(index, 1);
     }
-    const getAllTodos = () => { return todos};
 
     return {
-        getName,
+        name,
+        todos,
         addTodo,
         removeTodo,
-        getAllTodos
     }
 }
 

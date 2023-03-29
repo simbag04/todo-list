@@ -2,15 +2,19 @@ import { lists } from "./todo-list";
 import { Project } from "./project";
 import { listController } from "./list-controller";
 import { Item } from "./todo-item";
+import { storage } from "./storage";
 
 const domController = (() => {
 
     let body = document.querySelector('body');
 
     const initializeDom = () => {
+        storage.getStorage();
+        console.log(lists.projects);
         createDivLayout();
         developHeader();
         developSidebar();
+        renderDom(lists.getProjects()[0].name);
         createAddForm();
 
     }
@@ -26,6 +30,8 @@ const domController = (() => {
         projectForm.style['visibility'] = 'hidden';
 
         developSidebar();
+
+        console.log(projectName);
         renderProjectTodos(projectName);
     }
 
@@ -89,7 +95,7 @@ const domController = (() => {
         projectUL.classList.add("sidebar-projects");
 
         // add each project to ul
-        let projects = lists.getAllProjects();
+        let projects = lists.getProjects();
         for (let i = 0; i < projects.length; i++)
         {
             let li = document.createElement('li');
@@ -97,7 +103,7 @@ const domController = (() => {
             // create button to click on project
             let proj = document.createElement('button');
             proj.classList.add('sidebar-project');
-            proj.textContent = projects[i].getName();
+            proj.textContent = projects[i].name;
 
             //  create x button to delete project
             let deleteButton = document.createElement('button');
@@ -105,12 +111,12 @@ const domController = (() => {
             deleteButton.textContent = 'X';
 
             deleteButton.addEventListener('click', () => {
-                lists.removeProject(projects[i].getName());
+                lists.removeProject(projects[i].name);
                 developSidebar();
                 
-                if (lists.getAllProjects().length != 0)
+                if (lists.getProjects().length != 0)
                 {
-                    renderDom(lists.getAllProjects()[0].getName());
+                    renderDom(lists.getProjects()[0].name);
                 }
                 else
                 {
@@ -133,7 +139,7 @@ const domController = (() => {
 
             
 
-            proj.addEventListener('click', () => renderProjectTodos(projects[i].getName()));
+            proj.addEventListener('click', () => renderProjectTodos(projects[i].name));
         }
         return projectUL;
     }
@@ -302,6 +308,7 @@ const domController = (() => {
         // get text value
         let inputValue = document.querySelector("#new-project").value;
         lists.addProject(inputValue);
+        storage.setStorage();
 
         // remove previous project dropdown
         let prevDropdown = document.querySelector('.project-dropdown');
@@ -312,6 +319,7 @@ const domController = (() => {
         ul.appendChild(createProjectDropdown());
 
         resetProjectFormFields();
+        storage.setStorage();
     }
 
     const resetProjectFormFields = () => {
@@ -339,13 +347,12 @@ const domController = (() => {
         select.setAttribute('required', true);
 
         // create options
-        let projectList = lists.getAllProjects();
+        let projectList = lists.getProjects();
         for (let i = 0; i < projectList.length; i++)
         {
-            // console.log(projectList[i].getName());
             let option = document.createElement("option");
-            option.setAttribute('value', projectList[i].getName());
-            option.textContent = projectList[i].getName();
+            option.setAttribute('value', projectList[i].name);
+            option.textContent = projectList[i].name;
             select.appendChild(option);
         }
 
@@ -387,7 +394,8 @@ const domController = (() => {
         let project = document.querySelector("#project").value;
 
         // create new item
-        listController.addTodo(Item(name, description, date, priority, project));
+        listController.addTodo(new Item(name, description, date, priority, false, project));
+        storage.setStorage();
         resetAddFormFields();
         renderDom(project);
     }
@@ -404,7 +412,8 @@ const domController = (() => {
     }
 
     const renderProjectTodos = (project) => {
-        let todos = lists.getProject(project).getAllTodos();
+        console.log(lists.getProjects());
+        let todos = lists.getProject(project).todos;
         let main = document.querySelector('.main');
         main.innerHTML = "";
         let title = document.createElement('p');
@@ -423,7 +432,7 @@ const domController = (() => {
             let checkbox = document.createElement('input');
             checkbox.setAttribute('type', 'checkbox');
             let title = document.createElement('p');
-            title.textContent = todos[i].getTitle();
+            title.textContent = todos[i].title;
 
             left.appendChild(checkbox);
             left.appendChild(title);
@@ -431,7 +440,7 @@ const domController = (() => {
             let right = createDiv('right');
 
             let date = document.createElement('p');
-            date.textContent = todos[i].getDueDate();
+            date.textContent = todos[i].dueDate;
 
             let detailsButton = document.createElement('button');
             detailsButton.textContent = "Show Details";
@@ -443,7 +452,8 @@ const domController = (() => {
             deleteButton.textContent = 'X';
             deleteButton.classList.add('delete');
             deleteButton.addEventListener('click', () => {
-                lists.getProject(project).removeTodo(todos[i].getTitle());
+                lists.getProject(project).removeTodo(todos[i].title);
+                storage.setStorage();
                 renderProjectTodos(project);
             })
 
@@ -454,12 +464,12 @@ const domController = (() => {
             div.appendChild(left);
             div.appendChild(right);
 
-            if (todos[i].getCompleted())
+            if (todos[i].completed)
             {
                 checkbox.checked = true;
                 div.style['opacity'] = '50%';
             }
-            let priority = todos[i].getPriority();
+            let priority = todos[i].priority;
             if (priority === 'Low')
             {
                 div.classList.add('green');
@@ -473,9 +483,10 @@ const domController = (() => {
             checkbox.addEventListener('click', () => {
                 if (checkbox.checked == true)
                 {
-                    todos[i].setCompleted(true);
+                    todos[i].completed = true;
                 }
-                else todos[i].setCompleted(false);
+                else todos[i].completed = false;
+                storage.setStorage();
                 renderProjectTodos(project);
             });
 
@@ -501,10 +512,10 @@ const domController = (() => {
         title.textContent = "Details";
 
         let infoUL = document.createElement('ul');
-        infoUL.appendChild(creatInfoLi("Name", item.getTitle()));
-        infoUL.appendChild(creatInfoLi("Description", item.getDescription()));
-        infoUL.appendChild(creatInfoLi("Due Date", item.getDueDate()));
-        infoUL.appendChild(creatInfoLi("Project", item.getProject()));
+        infoUL.appendChild(creatInfoLi("Name", item.title));
+        infoUL.appendChild(creatInfoLi("Description", item.description));
+        infoUL.appendChild(creatInfoLi("Due Date", item.dueDate));
+        infoUL.appendChild(creatInfoLi("Project", item.project));
 
         let closeButton = document.createElement('button');
         closeButton.textContent = "Close";
